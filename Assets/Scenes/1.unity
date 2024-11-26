@@ -755,7 +755,7 @@ GameObject:
   - component: {fileID: 620540241}
   - component: {fileID: 620540239}
   - component: {fileID: 620540244}
-  - component: {fileID: 620540243}
+  - component: {fileID: 620540245}
   m_Layer: 2
   m_Name: Enemy
   m_TagString: Untagged
@@ -851,21 +851,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &620540243
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 620540238}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df73518648f560647a59482b3e8a99cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 2
-  raycastDistance: 2
-  directions: 3
 --- !u!58 &620540244
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -901,6 +886,21 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.05
+--- !u!114 &620540245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 620540238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45642cc134c012e49a6f18416331653a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
+  rayDistance: 2
+  direccionesObstruidas: 00000000
 --- !u!1 &643203244
 GameObject:
   m_ObjectHideFlags: 0
