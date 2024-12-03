@@ -10,6 +10,10 @@ public class enemigo : MonoBehaviour
     public float rayDistance = 1f;
 
     public bool[] direccionesObstruidas;
+    [SerializeField]
+    byte numDirLibres = 0;
+
+
 
     private int direccionMovActual = 0;//indice para saber la direccion actual
     private Vector3 vectorMovActual;
@@ -19,10 +23,16 @@ public class enemigo : MonoBehaviour
     Vector3[] direccionesMovimiento;
 
     int direccionActual;
+
+
+    IEnumerator movimiento;
+    IEnumerator deteccion;
+
+    bool cambiandoCruce = false;
     void Start()
     {
         direccionActual = escogerDireccionLibre();
-
+        deteccion = detecta();
 
         //inicializacion del vector
         System.Array.Resize(ref direccionesMovimiento,4);
@@ -48,21 +58,70 @@ public class enemigo : MonoBehaviour
 
         }
         vectorMovActual = devuelveDireccionVector3(direccionActual);
-        StartCoroutine(mueveEnemigo());
-        StartCoroutine(detecta());
 
+        movimiento = mueveEnemigo();
+        
+
+        StartCoroutine(movimiento);
+
+        StartCoroutine(deteccion);//escanea todos los frames
+        StartCoroutine(escanea3Libres());//escanea solo 3 libres cada x tiempo
     }
 
     // Update is called once per frame
     void Update()
     {
-        //permite detectar como iuun colider
         
-        //solo para visualizar en vista de escena     
        
     }
 
-    IEnumerator mueveEnemigo()
+    IEnumerator escanea3Libres()
+    {
+        while (true)
+
+        {
+            //si las direcciones obstruíidas mayor o igual a 3
+            if (numDirLibres>=3)
+            {
+
+                cambiandoCruce = true;
+
+                Debug.Log("Cruce indice actual: " + direccionActual + "vector:" + vectorMovActual);
+
+
+                yield return new WaitForSeconds(0.4f);//tiempo de reaccion
+                detectaColisiones();
+                int nuevoIndice = escogerDireccionLibre();
+                vectorMovActual = devuelveDireccionVector3(nuevoIndice);
+
+                indiceNuevaDireccion = nuevoIndice;
+                direccionActual = indiceNuevaDireccion;
+                direccionMovActual = direccionActual;
+                //yield return new WaitForSeconds(.5f);
+                cambiandoCruce = false;
+                //StartCoroutine(deteccion);
+                //GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+
+                yield return new WaitForSeconds(0.4f);//tiempo de ejecucion de nueva dirección
+                Debug.Log("Cruce indice reasignado!" + nuevoIndice + "vector" + vectorMovActual);
+
+                //speed = 0;
+
+                cambiandoCruce = false;
+                // yield return new WaitForSeconds(1f);
+
+                //StartCoroutine(movimiento);
+                //yield return new WaitForSeconds(1f);
+                //StartCoroutine(deteccion);
+            }
+
+
+            yield return null;
+        }
+    }
+
+
+        IEnumerator mueveEnemigo()
     {
 
         Debug.Log("iniciado loop corrutina de movimiento");
@@ -78,26 +137,32 @@ public class enemigo : MonoBehaviour
         }
        
     }
+
+   
     IEnumerator detecta()
     {
 
         Debug.Log("iniciado loop corrutina de movimiento");
         while (true)
         {
-            detectaColisiones();
-            if (direccionesObstruidas[direccionActual]==false)
+            if (!cambiandoCruce)
             {
+                detectaColisiones();
+                if (direccionesObstruidas[direccionActual] == false)
+                {
 
-                direccionMovActual = direccionActual;
-            }
-            else
-            {
-                indiceNuevaDireccion = escogerDireccionLibre();
-                direccionActual = indiceNuevaDireccion;
-                direccionMovActual = direccionActual;
-            }
+                    direccionMovActual = direccionActual;
+                }
+                else
+                {
+                    indiceNuevaDireccion = escogerDireccionLibre();
+                    direccionActual = indiceNuevaDireccion;
+                    direccionMovActual = direccionActual;
+                }
 
-            vectorMovActual = direccionesMovimiento[direccionMovActual];
+                vectorMovActual = direccionesMovimiento[direccionMovActual];
+            }
+           
 
 
             yield return null;
@@ -146,8 +211,7 @@ public class enemigo : MonoBehaviour
 
 
                 indiceNuevaDireccion = j;
-                Debug.Log("Direccion Libre: " + j);
-                //return j;
+               
 
             }
             indiceNuevaDireccion++;
@@ -175,10 +239,10 @@ public class enemigo : MonoBehaviour
                 direccion = new Vector3(0,1,0);
                 break;
             case 1:
-                direccion = -new Vector3(0, 1, 0);
+                direccion = new Vector3(0, -1, 0);
                 break;
             case 2:
-                direccion = -new Vector3(1, 0, 0);
+                direccion = new Vector3(-1, 0, 0);
                 break;
             default:
 
@@ -195,14 +259,14 @@ public class enemigo : MonoBehaviour
 public void detectaColisiones()//almacena en el array de colisiones
     {
         
-        Debug.Log("Detectando colisiones");
+        //Debug.Log("Detectando colisiones");
         //disparamnos arriba
         
         Vector3 direccion;
 
         //direccion = transform.up;       
         //int contador = 4;
-
+        numDirLibres = 0;
         for (int i = 0; i < direccionesObstruidas.Length;i++)
         {
 
@@ -211,6 +275,9 @@ public void detectaColisiones()//almacena en el array de colisiones
             {
                 case 0:
                     direccion = transform.up;
+
+
+
                     break;
                 case 1:
                     direccion = -transform.up;
@@ -231,9 +298,9 @@ public void detectaColisiones()//almacena en el array de colisiones
 
             if (hit.collider != null)
             {
-                Debug.Log(direccion);
+                //Debug.Log(direccion);
                 Debug.DrawRay(transform.position, direccion * rayDistance, Color.red);
-                Debug.Log(hit.collider.tag);
+                //Debug.Log(hit.collider.tag);
                 //speed = -speed;
                 direccionesObstruidas[i] = true;
             }
@@ -241,6 +308,7 @@ public void detectaColisiones()//almacena en el array de colisiones
             else
             {
                 direccionesObstruidas[i] = false;
+                numDirLibres++;
                 Debug.DrawRay(transform.position, direccion * rayDistance, Color.green);
             }
 
