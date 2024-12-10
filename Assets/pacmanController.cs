@@ -7,10 +7,10 @@ public class pacmanController : MonoBehaviour
     // Start is called before the first frame update
     Vector3 direccion;
     public float velocidad = 10;
-    [SerializeField]
-    int pills = 0;
-    
+    //[SerializeField]
+    //int pills = 0;
 
+    public gameManager manager;
 
 
     void Start()
@@ -61,7 +61,9 @@ public class pacmanController : MonoBehaviour
         if (collision.gameObject.tag == "Pill")
         {
             print("Conseguida pill trigger");
-            pills++;
+            //pills++;
+            manager.pillConseguida();
+
             Destroy(collision.gameObject);
         }
 

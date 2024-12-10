@@ -88,8 +88,8 @@ public class enemigo : MonoBehaviour
 
                 Debug.Log("Cruce indice actual: " + direccionActual + "vector:" + vectorMovActual);
 
-
-                yield return new WaitForSeconds(0.4f);//tiempo de reaccion
+                //tiempo de espera antes de reaccionar
+                yield return new WaitForSeconds(0.35f);//tiempo de reaccion
                 detectaColisiones();
                 int nuevoIndice = escogerDireccionLibre();
                 vectorMovActual = devuelveDireccionVector3(nuevoIndice);
@@ -97,22 +97,15 @@ public class enemigo : MonoBehaviour
                 indiceNuevaDireccion = nuevoIndice;
                 direccionActual = indiceNuevaDireccion;
                 direccionMovActual = direccionActual;
-                //yield return new WaitForSeconds(.5f);
+              
                 cambiandoCruce = false;
-                //StartCoroutine(deteccion);
-                //GetComponent<Rigidbody2D>().velocity = Vector3.zero;
-
+                
                 yield return new WaitForSeconds(0.4f);//tiempo de ejecucion de nueva dirección
+
+
                 Debug.Log("Cruce indice reasignado!" + nuevoIndice + "vector" + vectorMovActual);
 
-                //speed = 0;
-
-                cambiandoCruce = false;
-                // yield return new WaitForSeconds(1f);
-
-                //StartCoroutine(movimiento);
-                //yield return new WaitForSeconds(1f);
-                //StartCoroutine(deteccion);
+               
             }
 
 
@@ -209,8 +202,8 @@ public class enemigo : MonoBehaviour
             {
                 //este caso es bueno Bingo es random y es libre
 
-
                 indiceNuevaDireccion = j;
+
                
 
             }
@@ -255,18 +248,14 @@ public class enemigo : MonoBehaviour
     }
 
 
+            #region función ded detección
 
 public void detectaColisiones()//almacena en el array de colisiones
     {
-        
-        //Debug.Log("Detectando colisiones");
-        //disparamnos arriba
-        
-        Vector3 direccion;
 
-        //direccion = transform.up;       
-        //int contador = 4;
-        numDirLibres = 0;
+        Vector3 direccion;
+        numDirLibres = 0;//sólo para contar huecos libres
+
         for (int i = 0; i < direccionesObstruidas.Length;i++)
         {
 
@@ -275,8 +264,6 @@ public void detectaColisiones()//almacena en el array de colisiones
             {
                 case 0:
                     direccion = transform.up;
-
-
 
                     break;
                 case 1:
@@ -291,17 +278,16 @@ public void detectaColisiones()//almacena en el array de colisiones
                     break;
 
             }
-           
+
 
 
             RaycastHit2D hit = Physics2D.Raycast(transform.position, direccion, rayDistance);
 
-            if (hit.collider != null)
+            if (hit.collider != null && hit.collider.tag == "Escenario")
             {
                 //Debug.Log(direccion);
                 Debug.DrawRay(transform.position, direccion * rayDistance, Color.red);
-                //Debug.Log(hit.collider.tag);
-                //speed = -speed;
+                
                 direccionesObstruidas[i] = true;
             }
 
@@ -312,12 +298,12 @@ public void detectaColisiones()//almacena en el array de colisiones
                 Debug.DrawRay(transform.position, direccion * rayDistance, Color.green);
             }
 
-        }
+        }//------------------------------final del for
    
 
     }
 
+    #endregion
 
-    
 
 }
