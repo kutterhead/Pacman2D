@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class pacmanController : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -12,10 +13,13 @@ public class pacmanController : MonoBehaviour
 
     public gameManager manager;
 
+   
+
 
     void Start()
     {
         direccion = transform.right;
+        
     }
 
     // Update is called once per frame
@@ -69,8 +73,14 @@ public class pacmanController : MonoBehaviour
 
         
     }
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    print("Colision con pill normal");
-    //}
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            print("Colisión con Enemy");
+            //llamada a manager para restar vida
+            manager.restaVida();
+           
+        }
+    }
 }
