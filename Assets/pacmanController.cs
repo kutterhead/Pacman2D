@@ -13,8 +13,8 @@ public class pacmanController : MonoBehaviour
 
     public gameManager manager;
 
-   
 
+    public GameObject visualObject;//objeto que vemos, no contiene colliders
 
     void Start()
     {
@@ -30,26 +30,29 @@ public class pacmanController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             direccion = -transform.up;
+            visualObject.transform.eulerAngles = new Vector3(0,0,-90);
 
-            
+
         }
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
 
             direccion = transform.up;
-
+            visualObject.transform.eulerAngles = new Vector3(0, 0, 90);
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             direccion = -transform.right;
-            GetComponent<SpriteRenderer>().flipX = true;
+            visualObject.transform.eulerAngles = new Vector3(0, 0, 180);
+            //visualObject.GetComponent<SpriteRenderer>().flipX = true;
            
         }
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
 
             direccion = transform.right;
-            GetComponent<SpriteRenderer>().flipX = false;
+            visualObject.transform.eulerAngles = new Vector3(0, 0, 0);
+            //visualObject.GetComponent<SpriteRenderer>().flipX = false;
         }
 
 

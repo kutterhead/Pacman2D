@@ -29,8 +29,14 @@ public class enemigo : MonoBehaviour
     IEnumerator deteccion;
 
     bool cambiandoCruce = false;
+
+
+    private Animator anim;
+
     void Start()
     {
+
+        anim = GetComponent<Animator>();
         direccionActual = escogerDireccionLibre();
         deteccion = detecta();
 
@@ -68,13 +74,7 @@ public class enemigo : MonoBehaviour
         StartCoroutine(escanea3Libres());//escanea solo 3 libres cada x tiempo
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-       
-    }
-
+   
     IEnumerator escanea3Libres()
     {
         while (true)
@@ -93,6 +93,11 @@ public class enemigo : MonoBehaviour
                 detectaColisiones();
                 int nuevoIndice = escogerDireccionLibre();
                 vectorMovActual = devuelveDireccionVector3(nuevoIndice);
+                ajustaAnimacion(nuevoIndice);
+
+
+
+
 
                 indiceNuevaDireccion = nuevoIndice;
                 direccionActual = indiceNuevaDireccion;
@@ -154,6 +159,7 @@ public class enemigo : MonoBehaviour
                 }
 
                 vectorMovActual = direccionesMovimiento[direccionMovActual];
+                ajustaAnimacion(direccionActual);
             }
            
 
@@ -230,16 +236,21 @@ public class enemigo : MonoBehaviour
         {
             case 0:
                 direccion = new Vector3(0,1,0);
+                anim.SetInteger("action",3);
                 break;
             case 1:
                 direccion = new Vector3(0, -1, 0);
+                anim.SetInteger("action", 2);
                 break;
             case 2:
                 direccion = new Vector3(-1, 0, 0);
+
+                anim.SetInteger("action", 0);
                 break;
             default:
 
-                direccion = new Vector3(1, 0, 0); 
+                direccion = new Vector3(1, 0, 0);
+                anim.SetInteger("action", 1);
                 break;
 
 
@@ -247,10 +258,38 @@ public class enemigo : MonoBehaviour
                 return direccion;
     }
 
+    void ajustaAnimacion(int indice)
+    {
+
+        Vector3 direccion;
+        switch (indice)
+        {
+            case 0:
+
+                anim.SetInteger("action", 3);
+                break;
+            case 1:
+
+                anim.SetInteger("action", 2);
+                break;
+            case 2:
+
+
+                anim.SetInteger("action", 0);
+                break;
+            default:
+
+
+                anim.SetInteger("action", 1);
+                break;
+
+
+        }
+    }
 
             #region función ded detección
 
-public void detectaColisiones()//almacena en el array de colisiones
+        public void detectaColisiones()//almacena en el array de colisiones
     {
 
         Vector3 direccion;
