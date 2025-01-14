@@ -122,13 +122,13 @@ public class enemigo : MonoBehaviour
         IEnumerator mueveEnemigo()
     {
 
-        Debug.Log("iniciado loop corrutina de movimiento");
+       // Debug.Log("iniciado loop corrutina de movimiento");
         while (true)
         {
             
             
             transform.Translate(vectorMovActual * speed * Time.deltaTime);
-            Debug.Log("Direccion movimiento: " + vectorMovActual);
+            //Debug.Log("Direccion movimiento: " + vectorMovActual);
             yield return null;
 
 

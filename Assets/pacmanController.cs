@@ -72,9 +72,16 @@ public class pacmanController : MonoBehaviour
             manager.pillConseguida();
 
             Destroy(collision.gameObject);
+        }else if (collision.gameObject.tag == "SuperPill")
+        {
+            ///print("Conseguida Super Pill trigger");
+            //pills++;
+            //manager.pillConseguida();
+            manager.modoCazafantasma();
+            Destroy(collision.gameObject);
         }
 
-        
+
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {

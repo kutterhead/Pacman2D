@@ -99,4 +99,13 @@ public class gameManager : MonoBehaviour
 
     }
 
+    public void modoCazafantasma()
+    {
+
+        Debug.Log("Modo cazafantasmas activado");
+
+    }
+
+
+
 }
