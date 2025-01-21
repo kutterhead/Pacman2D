@@ -2286,7 +2286,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!50 &417507530
 Rigidbody2D:
   serializedVersion: 4
@@ -2330,6 +2330,7 @@ MonoBehaviour:
   rayDistance: 1.1
   direccionesObstruidas: 00000000
   numDirLibres: 0
+  isScapping: 0
 --- !u!58 &417507532
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2427,7 +2428,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1814396562, guid: 294ad9aaa7ad6af4f99c1f8b98ae01ce, type: 3}
+  m_Sprite: {fileID: -1115634125, guid: 294ad9aaa7ad6af4f99c1f8b98ae01ce, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2845,7 +2846,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 11.120379
+  orthographic size: 13.02978
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -3498,6 +3499,7 @@ MonoBehaviour:
   rayDistance: 1.1
   direccionesObstruidas: 00000000
   numDirLibres: 0
+  isScapping: 0
 --- !u!50 &620540246
 Rigidbody2D:
   serializedVersion: 4
@@ -6630,7 +6632,7 @@ GameObject:
   - component: {fileID: 1190503879}
   m_Layer: 0
   m_Name: pacman
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6734,7 +6736,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 35ff7a8ecd2d3264eba86cffe04a746d, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -10127,7 +10129,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!50 &1707049419
 Rigidbody2D:
   serializedVersion: 4
@@ -10171,6 +10173,7 @@ MonoBehaviour:
   rayDistance: 1.1
   direccionesObstruidas: 00000000
   numDirLibres: 0
+  isScapping: 0
 --- !u!58 &1707049421
 CircleCollider2D:
   m_ObjectHideFlags: 0

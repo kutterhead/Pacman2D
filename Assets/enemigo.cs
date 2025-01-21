@@ -32,7 +32,7 @@ public class enemigo : MonoBehaviour
 
 
     private Animator anim;
-
+    public bool isScapping = false;//usado para poner al fantasma en modo escape
     void Start()
     {
 
@@ -261,6 +261,14 @@ public class enemigo : MonoBehaviour
     void ajustaAnimacion(int indice)
     {
 
+        if (isScapping)
+        {
+            anim.SetInteger("action", 4);
+            return;
+        }
+
+
+
         Vector3 direccion;
         switch (indice)
         {
@@ -322,7 +330,7 @@ public class enemigo : MonoBehaviour
 
             RaycastHit2D hit = Physics2D.Raycast(transform.position, direccion, rayDistance);
 
-            if (hit.collider != null && hit.collider.tag == "Escenario")
+            if ((hit.collider != null && hit.collider.CompareTag("Escenario"))||(hit.collider != null && hit.collider.CompareTag("Player"))&isScapping)
             {
                 //Debug.Log(direccion);
                 Debug.DrawRay(transform.position, direccion * rayDistance, Color.red);
@@ -336,8 +344,8 @@ public class enemigo : MonoBehaviour
                 numDirLibres++;
                 Debug.DrawRay(transform.position, direccion * rayDistance, Color.green);
             }
-
-        }//------------------------------final del for
+           
+            }//------------------------------final del for
    
 
     }
@@ -345,4 +353,14 @@ public class enemigo : MonoBehaviour
     #endregion
 
 
+    //manager llama a esta funcion de todos los fanttatsmas cuando se coge superpill
+    public void pasaModoEscape()
+    {
+        isScapping = true;
+    }
+    public void desactivaEscape()
+    {
+
+
+    }
 }
