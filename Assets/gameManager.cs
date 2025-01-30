@@ -15,6 +15,7 @@ public class gameManager : MonoBehaviour
     public TMPro.TextMeshProUGUI textoVidas;
 
     public int vidas = 3;
+    public int puntos = 0;
 
     public Transform player;
 
@@ -25,6 +26,7 @@ public class gameManager : MonoBehaviour
     {
         InitialPosition = player.transform.position;
         vidas = 2;
+        puntos = 0;
         //este array solo recopila las referencias
         pillsPantalla = GameObject.FindGameObjectsWithTag("Pill");
         fantasmasPantalla = GameObject.FindGameObjectsWithTag("Enemy");
@@ -101,11 +103,33 @@ public class gameManager : MonoBehaviour
 
     public void modoCazafantasma()
     {
+        GameObject[] fantasmasPantalla = GameObject.FindGameObjectsWithTag("Enemy");
+        for (int i = 0; i < fantasmasPantalla.Length;i++)
+        {
+            fantasmasPantalla[i].GetComponent<enemigo>().isScapping = true;
+        }
+
 
         Debug.Log("Modo cazafantasmas activado");
 
     }
+    public void desactivaModoCazafantasma()
+    {
+        GameObject[] fantasmasPantalla = GameObject.FindGameObjectsWithTag("Enemy");
+        for (int i = 0; i < fantasmasPantalla.Length; i++)
+        {
+            fantasmasPantalla[i].GetComponent<enemigo>().isScapping = false;
+        }
 
 
+        Debug.Log("Modo cazafantasmas desactivado");
+
+    }
+
+    public void sumaPuntos(int pts)
+    {
+        puntos = pts;
+
+    }
 
 }

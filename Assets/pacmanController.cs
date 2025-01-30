@@ -74,7 +74,7 @@ public class pacmanController : MonoBehaviour
             Destroy(collision.gameObject);
         }else if (collision.gameObject.tag == "SuperPill")
         {
-            ///print("Conseguida Super Pill trigger");
+            print("Conseguida Super Pill");
             //pills++;
             //manager.pillConseguida();
             manager.modoCazafantasma();
@@ -87,9 +87,20 @@ public class pacmanController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
+            if (collision.gameObject.GetComponent<enemigo>().isScapping==true)
+            {
+                Destroy(collision.gameObject);
+
+                manager.sumaPuntos(100);
+            }
+            else
+            {
+
             print("Colisión con Enemy");
             //llamada a manager para restar vida
             manager.restaVida();
+
+            }
            
         }
     }

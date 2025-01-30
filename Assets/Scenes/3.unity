@@ -2286,7 +2286,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!50 &417507530
 Rigidbody2D:
   serializedVersion: 4
@@ -8748,6 +8748,7 @@ MonoBehaviour:
   textoPills: {fileID: 1724131230}
   textoVidas: {fileID: 2084041082}
   vidas: 3
+  puntos: 0
   player: {fileID: 1190503876}
   panelGameOver: {fileID: 1202904450}
 --- !u!4 &1538587172
@@ -10129,7 +10130,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!50 &1707049419
 Rigidbody2D:
   serializedVersion: 4
@@ -12926,10 +12927,11 @@ SpriteRenderer:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 519420032}
+  - {fileID: 1538587172}
   - {fileID: 1190503876}
-  - {fileID: 1659772264}
   - {fileID: 620540242}
+  - {fileID: 519420032}
+  - {fileID: 1659772264}
   - {fileID: 1707049424}
   - {fileID: 417507535}
   - {fileID: 220818429}
@@ -12942,6 +12944,5 @@ SceneRoots:
   - {fileID: 1984931559}
   - {fileID: 1330236305}
   - {fileID: 1483737441}
-  - {fileID: 1538587172}
   - {fileID: 216864506}
   - {fileID: 1368045506}

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class enemigo : MonoBehaviour
+public class Enemigo2 : MonoBehaviour
 {
     // Start is called before the first frame update
 
@@ -41,8 +41,8 @@ public class enemigo : MonoBehaviour
         deteccion = detecta();
 
         //inicializacion del vector
-        System.Array.Resize(ref direccionesMovimiento,4);
-        for (int i = 0; i< direccionesMovimiento.Length;i++)
+        System.Array.Resize(ref direccionesMovimiento, 4);
+        for (int i = 0; i < direccionesMovimiento.Length; i++)
         {
             switch (i)
             {
@@ -66,7 +66,7 @@ public class enemigo : MonoBehaviour
         vectorMovActual = devuelveDireccionVector3(direccionActual);
 
         movimiento = mueveEnemigo();
-        
+
 
         StartCoroutine(movimiento);
 
@@ -74,14 +74,14 @@ public class enemigo : MonoBehaviour
         StartCoroutine(escanea3Libres());//escanea solo 3 libres cada x tiempo
     }
 
-   
+
     IEnumerator escanea3Libres()
     {
         while (true)
 
         {
             //si las direcciones obstruíidas mayor o igual a 3
-            if (numDirLibres>=3)
+            if (numDirLibres >= 3)
             {
 
                 cambiandoCruce = true;
@@ -102,15 +102,15 @@ public class enemigo : MonoBehaviour
                 indiceNuevaDireccion = nuevoIndice;
                 direccionActual = indiceNuevaDireccion;
                 direccionMovActual = direccionActual;
-              
+
                 cambiandoCruce = false;
-                
+
                 yield return new WaitForSeconds(0.4f);//tiempo de ejecucion de nueva dirección
 
 
                 Debug.Log("Cruce indice reasignado!" + nuevoIndice + "vector" + vectorMovActual);
 
-               
+
             }
 
 
@@ -119,24 +119,24 @@ public class enemigo : MonoBehaviour
     }
 
 
-        IEnumerator mueveEnemigo()
+    IEnumerator mueveEnemigo()
     {
 
-       // Debug.Log("iniciado loop corrutina de movimiento");
+        // Debug.Log("iniciado loop corrutina de movimiento");
         while (true)
         {
-            
-            
+
+
             transform.Translate(vectorMovActual * speed * Time.deltaTime);
             //Debug.Log("Direccion movimiento: " + vectorMovActual);
             yield return null;
 
 
         }
-       
+
     }
 
-   
+
     IEnumerator detecta()
     {
 
@@ -161,7 +161,7 @@ public class enemigo : MonoBehaviour
                 vectorMovActual = direccionesMovimiento[direccionMovActual];
                 ajustaAnimacion(direccionActual);
             }
-           
+
 
 
             yield return null;
@@ -185,7 +185,7 @@ public class enemigo : MonoBehaviour
 
         }
 
-        if (numeroObstruidas>2)
+        if (numeroObstruidas > 2)
         {
 
             Debug.Log("hacer cambio de direccion");
@@ -196,10 +196,10 @@ public class enemigo : MonoBehaviour
     }
 
     //escoger direccion libre random
-    int  escogerDireccionLibre()//la usamos para que nos devuelva una direccion disponible random
+    int escogerDireccionLibre()//la usamos para que nos devuelva una direccion disponible random
     {
         indiceNuevaDireccion = Random.Range(0, direccionesObstruidas.Length);
-        
+
         for (int j = 0; j < direccionesObstruidas.Length; j++)
         {
 
@@ -210,11 +210,11 @@ public class enemigo : MonoBehaviour
 
                 indiceNuevaDireccion = j;
 
-               
+
 
             }
             indiceNuevaDireccion++;
-            if (indiceNuevaDireccion>= direccionesObstruidas.Length)
+            if (indiceNuevaDireccion >= direccionesObstruidas.Length)
             {
                 indiceNuevaDireccion = 0;
             }
@@ -222,7 +222,7 @@ public class enemigo : MonoBehaviour
 
 
         }
-   
+
         return indiceNuevaDireccion;//por defecto
 
 
@@ -235,8 +235,8 @@ public class enemigo : MonoBehaviour
         switch (indice)
         {
             case 0:
-                direccion = new Vector3(0,1,0);
-                anim.SetInteger("action",3);
+                direccion = new Vector3(0, 1, 0);
+                anim.SetInteger("action", 3);
                 break;
             case 1:
                 direccion = new Vector3(0, -1, 0);
@@ -255,7 +255,7 @@ public class enemigo : MonoBehaviour
 
 
         }
-                return direccion;
+        return direccion;
     }
 
     void ajustaAnimacion(int indice)
@@ -295,15 +295,15 @@ public class enemigo : MonoBehaviour
         }
     }
 
-            #region función ded detección
+    #region función ded detección
 
-        public void detectaColisiones()//almacena en el array de colisiones
+    public void detectaColisiones()//almacena en el array de colisiones
     {
 
         Vector3 direccion;
         numDirLibres = 0;//sólo para contar huecos libres
 
-        for (int i = 0; i < direccionesObstruidas.Length;i++)//dispara en las 4 direcciones
+        for (int i = 0; i < direccionesObstruidas.Length; i++)//dispara en las 4 direcciones
         {
 
 
@@ -334,7 +334,7 @@ public class enemigo : MonoBehaviour
             {
                 //Debug.Log(direccion);
                 Debug.DrawRay(transform.position, direccion * rayDistance, Color.red);
-                
+
                 direccionesObstruidas[i] = true;
             }
 
@@ -345,7 +345,7 @@ public class enemigo : MonoBehaviour
                 Debug.DrawRay(transform.position, direccion * rayDistance, Color.green);
             }
 
-            hit = Physics2D.Raycast(transform.position, direccion, rayDistance*10);
+            hit = Physics2D.Raycast(transform.position, direccion, rayDistance * 10);
 
             if ((hit.collider != null && hit.collider.CompareTag("Player")) & isScapping)
             {
@@ -355,11 +355,11 @@ public class enemigo : MonoBehaviour
                 direccionesObstruidas[i] = true;
             }
 
-           
+
 
 
         }//------------------------------final del for
-   
+
 
     }
 
