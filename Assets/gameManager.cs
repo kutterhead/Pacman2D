@@ -2,10 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Events;
 
 using UnityEngine.SceneManagement;
 public class gameManager : MonoBehaviour
 {
+    public gameManager manager;
+    public UnityEvent evento1;
+    public UnityEvent eventoModoEscape;
     // Start is called before the first frame update
     public int pills;
     public GameObject[] pillsPantalla;
@@ -36,6 +40,9 @@ public class gameManager : MonoBehaviour
         panelGameOver.SetActive(false);
         textoVidas.text = (vidas + 1).ToString();
         textoPills.text = 0.ToString();
+
+
+        evento1?.Invoke();//emite evento1
     }
 
     // Update is called once per frame
@@ -56,6 +63,8 @@ public class gameManager : MonoBehaviour
 
             for (int i = 0; i<fantasmasPantalla.Length;i++)
             {
+
+                
                 fantasmasPantalla[i].GetComponent<enemigo>().enabled = false;
                 fantasmasPantalla[i].GetComponent<enemigo>().StopAllCoroutines();
 
@@ -103,12 +112,15 @@ public class gameManager : MonoBehaviour
 
     public void modoCazafantasma()
     {
+
+        eventoModoEscape?.Invoke();
+/*
         GameObject[] fantasmasPantalla = GameObject.FindGameObjectsWithTag("Enemy");
         for (int i = 0; i < fantasmasPantalla.Length;i++)
         {
             fantasmasPantalla[i].GetComponent<enemigo>().isScapping = true;
         }
-
+*/
 
         Debug.Log("Modo cazafantasmas activado");
 

@@ -78,11 +78,15 @@ public class pacmanController : MonoBehaviour
             //pills++;
             //manager.pillConseguida();
             manager.modoCazafantasma();
+
+
+
             Destroy(collision.gameObject);
         }
 
 
     }
+    /*
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
@@ -103,5 +107,9 @@ public class pacmanController : MonoBehaviour
             }
            
         }
-    }
+    }*/
+
+
+
+
 }

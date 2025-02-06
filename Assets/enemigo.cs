@@ -5,6 +5,9 @@ using UnityEngine;
 public class enemigo : MonoBehaviour
 {
     // Start is called before the first frame update
+    public gameManager manager;
+
+
 
     public float speed = 10f;
     public float rayDistance = 1f;
@@ -35,6 +38,9 @@ public class enemigo : MonoBehaviour
     public bool isScapping = false;//usado para poner al fantasma en modo escape
     void Start()
     {
+        manager = GameObject.FindGameObjectWithTag("Manager").GetComponent<gameManager>();
+        //manager.evento1.AddListener(evento1recibido);ç
+        manager.eventoModoEscape.AddListener(activaModoEscape);
 
         anim = GetComponent<Animator>();
         direccionActual = escogerDireccionLibre();
@@ -74,6 +80,16 @@ public class enemigo : MonoBehaviour
         StartCoroutine(escanea3Libres());//escanea solo 3 libres cada x tiempo
     }
 
+
+    public void activaModoEscape()
+    {
+        isScapping = true;
+    }
+    public void evento1recibido()
+    {
+        ///oifuowifuwofu(3453);
+        Debug.Log("recibido evento 1");
+    }
    
     IEnumerator escanea3Libres()
     {
@@ -86,7 +102,7 @@ public class enemigo : MonoBehaviour
 
                 cambiandoCruce = true;
 
-                Debug.Log("Cruce indice actual: " + direccionActual + "vector:" + vectorMovActual);
+               // Debug.Log("Cruce indice actual: " + direccionActual + "vector:" + vectorMovActual);
 
                 //tiempo de espera antes de reaccionar
                 yield return new WaitForSeconds(0.35f);//tiempo de reaccion
@@ -108,7 +124,7 @@ public class enemigo : MonoBehaviour
                 yield return new WaitForSeconds(0.4f);//tiempo de ejecucion de nueva dirección
 
 
-                Debug.Log("Cruce indice reasignado!" + nuevoIndice + "vector" + vectorMovActual);
+                //Debug.Log("Cruce indice reasignado!" + nuevoIndice + "vector" + vectorMovActual);
 
                
             }
@@ -376,4 +392,28 @@ public class enemigo : MonoBehaviour
 
 
     }
+
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            if (isScapping)
+            {
+                Destroy(gameObject);
+
+                manager.sumaPuntos(100);
+            }
+            else
+            {
+
+                print("Colisión con Enemy");
+                //llamada a manager para restar vida
+                manager.restaVida();
+
+            }
+
+        }
+    }
+
 }

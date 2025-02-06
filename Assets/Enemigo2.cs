@@ -5,7 +5,7 @@ using UnityEngine;
 public class Enemigo2 : MonoBehaviour
 {
     // Start is called before the first frame update
-
+    public gameManager manager;
     public float speed = 10f;
     public float rayDistance = 1f;
 
@@ -35,6 +35,10 @@ public class Enemigo2 : MonoBehaviour
     public bool isScapping = false;//usado para poner al fantasma en modo escape
     void Start()
     {
+        manager = GameObject.FindGameObjectWithTag("Manager").GetComponent<gameManager>();
+        manager.eventoModoEscape.AddListener(modoEscape);
+
+
 
         anim = GetComponent<Animator>();
         direccionActual = escogerDireccionLibre();
@@ -74,7 +78,10 @@ public class Enemigo2 : MonoBehaviour
         StartCoroutine(escanea3Libres());//escanea solo 3 libres cada x tiempo
     }
 
-
+    public void modoEscape()
+    {
+        isScapping = true;
+    }
     IEnumerator escanea3Libres()
     {
         while (true)
@@ -375,5 +382,26 @@ public class Enemigo2 : MonoBehaviour
     {
 
 
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            if (isScapping)
+            {
+                Destroy(gameObject);
+
+                manager.sumaPuntos(100);
+            }
+            else
+            {
+
+                print("Colisión con Enemy");
+                //llamada a manager para restar vida
+                manager.restaVida();
+
+            }
+
+        }
     }
 }
