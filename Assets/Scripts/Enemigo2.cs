@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class enemigo : MonoBehaviour
+public class Enemigo2 : MonoBehaviour
 {
     // Start is called before the first frame update
     public gameManager manager;
-
-
-
     public float speed = 10f;
+
+
+    public float factorDistancePlayer;
     public float rayDistance = 1f;
 
     public bool[] direccionesObstruidas;
@@ -36,19 +36,19 @@ public class enemigo : MonoBehaviour
 
     private Animator anim;
     public bool isScapping = false;//usado para poner al fantasma en modo escape
+   
+
     void Start()
     {
         manager = GameObject.FindGameObjectWithTag("Manager").GetComponent<gameManager>();
-        //manager.evento1.AddListener(evento1recibido);ç
-        manager.eventoModoEscape.AddListener(activaModoEscape);
-
+        manager.eventoModoEscape.AddListener(modoEscape);
         anim = GetComponent<Animator>();
         direccionActual = escogerDireccionLibre();
         deteccion = detecta();
 
         //inicializacion del vector
-        System.Array.Resize(ref direccionesMovimiento,4);
-        for (int i = 0; i< direccionesMovimiento.Length;i++)
+        System.Array.Resize(ref direccionesMovimiento, 4);
+        for (int i = 0; i < direccionesMovimiento.Length; i++)
         {
             switch (i)
             {
@@ -72,87 +72,73 @@ public class enemigo : MonoBehaviour
         vectorMovActual = devuelveDireccionVector3(direccionActual);
 
         movimiento = mueveEnemigo();
-        
+
 
         StartCoroutine(movimiento);
 
         StartCoroutine(deteccion);//escanea todos los frames
-        StartCoroutine(escanea3Libres());//escanea solo 3 libres cada x tiempo
+        //StartCoroutine(escanea3Libres());//escanea solo 3 libres cada x tiempo
     }
 
-
-    public void activaModoEscape()
+    public void modoEscape()
     {
         isScapping = true;
     }
-    public void evento1recibido()
-    {
-        ///oifuowifuwofu(3453);
-        Debug.Log("recibido evento 1");
-    }
-   
+
+
+
+
+    //esta corrutina cambia la dirección posible
     IEnumerator escanea3Libres()
     {
         while (true)
 
         {
+
+            //implementar prioridad de player ???
+
+
             //si las direcciones obstruíidas mayor o igual a 3
-            if (numDirLibres>=3)
+            if (numDirLibres >= 3)
             {
-
                 cambiandoCruce = true;
-
-               // Debug.Log("Cruce indice actual: " + direccionActual + "vector:" + vectorMovActual);
-
+                Debug.Log("Cruce indice actual: " + direccionActual + "vector:" + vectorMovActual);
                 //tiempo de espera antes de reaccionar
                 yield return new WaitForSeconds(0.35f);//tiempo de reaccion
                 detectaColisiones();
                 int nuevoIndice = escogerDireccionLibre();
                 vectorMovActual = devuelveDireccionVector3(nuevoIndice);
                 ajustaAnimacion(nuevoIndice);
-
-
-
-
-
                 indiceNuevaDireccion = nuevoIndice;
                 direccionActual = indiceNuevaDireccion;
                 direccionMovActual = direccionActual;
-              
                 cambiandoCruce = false;
-                
                 yield return new WaitForSeconds(0.4f);//tiempo de ejecucion de nueva dirección
+                Debug.Log("Cruce indice reasignado!" + nuevoIndice + "vector" + vectorMovActual);
 
-
-                //Debug.Log("Cruce indice reasignado!" + nuevoIndice + "vector" + vectorMovActual);
-
-               
             }
-
 
             yield return null;
         }
     }
 
 
-        IEnumerator mueveEnemigo()
+    IEnumerator mueveEnemigo()
     {
 
-       // Debug.Log("iniciado loop corrutina de movimiento");
+        // Debug.Log("iniciado loop corrutina de movimiento");
         while (true)
         {
-            
-            
+
             transform.Translate(vectorMovActual * speed * Time.deltaTime);
             //Debug.Log("Direccion movimiento: " + vectorMovActual);
             yield return null;
 
-
         }
-       
+
     }
 
-   
+
     IEnumerator detecta()
     {
 
@@ -177,11 +163,8 @@ public class enemigo : MonoBehaviour
                 vectorMovActual = direccionesMovimiento[direccionMovActual];
                 ajustaAnimacion(direccionActual);
             }
-           
-
 
             yield return null;
-
 
         }
 
@@ -189,7 +172,6 @@ public class enemigo : MonoBehaviour
 
     public void detectMomentoCambio()
     {
-
         int numeroObstruidas = 0;
         for (int i = 0; i < direccionesMovimiento.Length; i++)
         {
@@ -201,21 +183,20 @@ public class enemigo : MonoBehaviour
 
         }
 
-        if (numeroObstruidas>2)
+        if (numeroObstruidas > 2)
         {
 
             Debug.Log("hacer cambio de direccion");
 
         }
 
-
     }
 
     //escoger direccion libre random
-    int  escogerDireccionLibre()//la usamos para que nos devuelva una direccion disponible random
+    int escogerDireccionLibre()//la usamos para que nos devuelva una direccion disponible random
     {
         indiceNuevaDireccion = Random.Range(0, direccionesObstruidas.Length);
-        
+
         for (int j = 0; j < direccionesObstruidas.Length; j++)
         {
 
@@ -226,22 +207,16 @@ public class enemigo : MonoBehaviour
 
                 indiceNuevaDireccion = j;
 
-               
-
             }
             indiceNuevaDireccion++;
-            if (indiceNuevaDireccion>= direccionesObstruidas.Length)
+            if (indiceNuevaDireccion >= direccionesObstruidas.Length)
             {
                 indiceNuevaDireccion = 0;
             }
 
-
-
         }
-   
+
         return indiceNuevaDireccion;//por defecto
-
-
     }
 
     Vector3 devuelveDireccionVector3(int indice)
@@ -251,8 +226,8 @@ public class enemigo : MonoBehaviour
         switch (indice)
         {
             case 0:
-                direccion = new Vector3(0,1,0);
-                anim.SetInteger("action",3);
+                direccion = new Vector3(0, 1, 0);
+                anim.SetInteger("action", 3);
                 break;
             case 1:
                 direccion = new Vector3(0, -1, 0);
@@ -268,10 +243,8 @@ public class enemigo : MonoBehaviour
                 direccion = new Vector3(1, 0, 0);
                 anim.SetInteger("action", 1);
                 break;
-
-
         }
-                return direccion;
+        return direccion;
     }
 
     void ajustaAnimacion(int indice)
@@ -282,8 +255,6 @@ public class enemigo : MonoBehaviour
             anim.SetInteger("action", 4);
             return;
         }
-
-
 
         Vector3 direccion;
         switch (indice)
@@ -298,30 +269,26 @@ public class enemigo : MonoBehaviour
                 break;
             case 2:
 
-
                 anim.SetInteger("action", 0);
                 break;
             default:
 
-
                 anim.SetInteger("action", 1);
                 break;
-
 
         }
     }
 
-            #region función ded detección
+    #region función ded detección
 
-        public void detectaColisiones()//almacena en el array de colisiones
+    public void detectaColisiones()//almacena en el array de colisiones
     {
 
         Vector3 direccion;
         numDirLibres = 0;//sólo para contar huecos libres
 
-        for (int i = 0; i < direccionesObstruidas.Length;i++)//dispara en las 4 direcciones
+        for (int i = 0; i < direccionesObstruidas.Length; i++)//dispara en las 4 direcciones
         {
-
 
             switch (i)
             {
@@ -339,10 +306,7 @@ public class enemigo : MonoBehaviour
 
                     direccion = transform.right;
                     break;
-
             }
-
-
 
             RaycastHit2D hit = Physics2D.Raycast(transform.position, direccion, rayDistance);
 
@@ -350,7 +314,7 @@ public class enemigo : MonoBehaviour
             {
                 //Debug.Log(direccion);
                 Debug.DrawRay(transform.position, direccion * rayDistance, Color.red);
-                
+
                 direccionesObstruidas[i] = true;
             }
 
@@ -361,21 +325,41 @@ public class enemigo : MonoBehaviour
                 Debug.DrawRay(transform.position, direccion * rayDistance, Color.green);
             }
 
-            hit = Physics2D.Raycast(transform.position, direccion, rayDistance*10);
-
-            if ((hit.collider != null && hit.collider.CompareTag("Player")) & isScapping)
+            //se usa para detectar player
+            hit = Physics2D.Raycast(transform.position, direccion, rayDistance * factorDistancePlayer);
+            Debug.DrawRay(transform.position, direccion * rayDistance * factorDistancePlayer, Color.yellow);
+            if ((hit.collider != null && hit.collider.CompareTag("Player")))
             {
-                Debug.Log("detectado player");
+
+                if (isScapping)
+                {
+
+                Debug.Log("detectado player en modo escape");
                 Debug.DrawRay(transform.position, direccion * rayDistance, Color.red);
 
                 direccionesObstruidas[i] = true;
-            }
+                }
+                else
+                {
+                    //aquí no se corresponde
+                    Debug.Log("detectado player en modo normal");
+                    direccionesObstruidas = new bool[] { true, true, true, true };
 
-           
+                   /* for (int j = 0; j < direccionesObstruidas.Length; j++)
+                    {
+                        direccionesObstruidas[j] = true;
+                    }
+                   */
+
+                    //Debug.LogError("detectado player en modo normal");
+                    Debug.Break();
+                    direccionesObstruidas[i] = false;
+
+                }
+            }
 
 
         }//------------------------------final del for
-   
 
     }
 
@@ -392,8 +376,6 @@ public class enemigo : MonoBehaviour
 
 
     }
-
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -401,19 +383,15 @@ public class enemigo : MonoBehaviour
             if (isScapping)
             {
                 Destroy(gameObject);
-
                 manager.sumaPuntos(100);
             }
             else
             {
-
                 print("Colisión con Enemy");
                 //llamada a manager para restar vida
                 manager.restaVida();
-
             }
 
         }
     }
-
 }
