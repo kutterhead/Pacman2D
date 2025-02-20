@@ -7,8 +7,6 @@ public class Enemigo2 : MonoBehaviour
     // Start is called before the first frame update
     public gameManager manager;
     public float speed = 10f;
-
-
     public float factorDistancePlayer;
     public float rayDistance = 1f;
 
@@ -256,7 +254,7 @@ public class Enemigo2 : MonoBehaviour
             return;
         }
 
-        Vector3 direccion;
+      //  Vector3 direccion;
         switch (indice)
         {
             case 0:
@@ -329,7 +327,11 @@ public class Enemigo2 : MonoBehaviour
             hit = Physics2D.Raycast(transform.position, direccion, rayDistance * factorDistancePlayer);
             Debug.DrawRay(transform.position, direccion * rayDistance * factorDistancePlayer, Color.yellow);
             if ((hit.collider != null && hit.collider.CompareTag("Player")))
-            {
+           {
+                Debug.LogError("Error player");
+                //Debug.Break();
+                //Debug.Log("Este mensaje no debería imprimirse");
+
 
                 if (isScapping)
                 {
@@ -352,7 +354,7 @@ public class Enemigo2 : MonoBehaviour
                    */
 
                     //Debug.LogError("detectado player en modo normal");
-                    Debug.Break();
+                   
                     direccionesObstruidas[i] = false;
 
                 }
